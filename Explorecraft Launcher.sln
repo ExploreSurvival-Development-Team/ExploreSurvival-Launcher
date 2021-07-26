@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.1525
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Explorecraft Launcher", "Explorecraft Launcher\Explorecraft Launcher.csproj", "{321DBE43-A41E-48BD-B2D2-36E612227F6C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExploreSurvival Launcher", "Explorecraft Launcher\ExploreSurvival Launcher.csproj", "{321DBE43-A41E-48BD-B2D2-36E612227F6C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
