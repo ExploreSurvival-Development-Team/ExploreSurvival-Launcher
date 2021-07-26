@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Explorecraft_Launcher"
         xmlns:hc="https://handyorg.github.io/handycontrol" xmlns:Properties="clr-namespace:Explorecraft_Launcher.Properties" x:Class="Explorecraft_Launcher.MainWindow"
         mc:Ignorable="d"
-        Title="Explorecraft 启动器" Height="465.981" Width="831.023" ResizeMode="NoResize">
+        Title="ExploreSurvival 启动器" Height="465.981" Width="831.023" ResizeMode="NoResize">
     <Grid Background="#FF4B4B4B" Margin="0,0,-8,0">
         <Grid.RowDefinitions>
             <RowDefinition/>

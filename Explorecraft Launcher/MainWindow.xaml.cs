@@ -32,7 +32,7 @@ namespace Explorecraft_Launcher
 
         private void SwitchLang_enUS(object sender, RoutedEventArgs e)
         {
-            this.Title = "Explorecraft Launcher";
+            this.Title = "ExploreSurvival Launcher";
             this.LoginUsernameText.Text = "Username";
             this.LoginPasswordText.Text = "Password";
             this.StartGame.Content = "Start Game";
@@ -47,7 +47,7 @@ namespace Explorecraft_Launcher
 
         private void SwitchLang_zhCN(object sender, RoutedEventArgs e)
         {
-            this.Title = "Explorecraft 启动器";
+            this.Title = "ExploreSurvival 启动器";
             this.LoginUsernameText.Text = "用户名";
             this.LoginPasswordText.Text = "密码";
             this.StartGame.Content = "启动游戏";
