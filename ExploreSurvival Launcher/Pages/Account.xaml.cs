@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -11,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace ExploreSurvival_Launcher.Pages
 {
@@ -79,6 +81,11 @@ namespace ExploreSurvival_Launcher.Pages
                 config.write("account", "userName", userName.Text);
                 config.write("account", "offlineLogin", "true");
                 HideLogin();
+                new ContentDialog
+                {
+                    Title = "登录成功",
+                    Content = "启动器需要重新启动",
+                }.ShowAsync();
             }
             else
             {
@@ -113,6 +120,11 @@ namespace ExploreSurvival_Launcher.Pages
             config.write("account", "userName", "");
             HideLoginAfter();
             ShowLogin();
+            new ContentDialog
+            {
+                Title = "注销成功",
+                Content = "启动器需要重新启动",
+            }.ShowAsync();
         }
     }
 }
