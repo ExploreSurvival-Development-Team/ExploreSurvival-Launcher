@@ -60,6 +60,10 @@ namespace ExploreSurvival_Launcher
                         frame.Navigate(new Main());
                         break;
 
+                    case "download":
+                        frame.Navigate(new Download());
+                        break;
+
                     case "account":
                         frame.Navigate(new Account());
                         break;
