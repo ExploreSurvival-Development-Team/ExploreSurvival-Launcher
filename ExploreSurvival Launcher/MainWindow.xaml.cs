@@ -35,6 +35,14 @@ namespace ExploreSurvival_Launcher
                 User.Content = config.read("account", "userName");
             }
             NavView.SelectedItem = NavView.MenuItems[0];
+            if (Environment.GetEnvironmentVariable("JAVA_HOME") == null)
+            {
+                new ContentDialog
+                {
+                    Title = "注意",
+                    Content = "ExploreSurivial需要Java来运行,你并没有安装Java"
+                }.ShowAsync();
+            }
             frame.Navigate(new Main());
         }
 
