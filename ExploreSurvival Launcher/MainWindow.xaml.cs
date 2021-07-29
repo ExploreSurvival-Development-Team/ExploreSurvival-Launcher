@@ -1,19 +1,8 @@
 ﻿using ExploreSurvival_Launcher.Pages;
 using ModernWpf.Controls;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace ExploreSurvival_Launcher
 {
@@ -26,23 +15,20 @@ namespace ExploreSurvival_Launcher
         public MainWindow()
         {
             InitializeComponent();
-            if (!config.exists("config", "jvmMemery"))
+            if (!config.exists("config", "JvmMemery"))
             {
-                config.write("config", "jvmMemery", "1024");
+                config.write("config", "JvmMemery", "1024");
             }
             if (config.exists("account", "userName"))
             {
                 User.Content = config.read("account", "userName");
             }
-            NavView.SelectedItem = NavView.MenuItems[0];
-            if (Environment.GetEnvironmentVariable("JAVA_HOME") == null)
+            string Javaexe = Environment.GetEnvironmentVariable("JAVA_HOME") + @"bin\java.exe";
+            if (File.Exists(Javaexe))
             {
-                new ContentDialog
-                {
-                    Title = "注意",
-                    Content = "ExploreSurivial需要Java来运行,你并没有安装Java"
-                }.ShowAsync();
+                config.write("config", "JavaPath", Javaexe);
             }
+            NavView.SelectedItem = NavView.MenuItems[0];
             frame.Navigate(new Main());
         }
 

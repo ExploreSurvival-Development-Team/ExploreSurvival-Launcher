@@ -1,16 +1,11 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
-using System.Text;
+using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace ExploreSurvival_Launcher.Pages
 {
@@ -23,18 +18,41 @@ namespace ExploreSurvival_Launcher.Pages
         public Settings()
         {
             InitializeComponent();
-            TextBox.Text = config.read("config", "jvmMemery");
+            JvmMemery.Text = config.read("config", "JvmMemery");
+            JavaPath.Text = config.read("config", "JavaPath");
         }
 
-        private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        private void JvmMemery_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             Regex re = new Regex("[^0-9]+");
             e.Handled = re.IsMatch(e.Text);
         }
 
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void Save_Click(object sender, RoutedEventArgs e)
         {
-            config.write("config", "jvmMemery", TextBox.Text);
+            config.write("config", "JvmMemery", JvmMemery.Text);
+            config.write("config", "JavaPath", JavaPath.Text);
+        }
+
+        private void SelectJavaexe_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog
+            {
+                Filter = "Java可执行文件|java.exe"
+            };
+            if ((bool)ofd.ShowDialog())
+            {
+                JavaPath.Text = ofd.FileName;
+            }
+        }
+
+        private void AutoFindJavaexe_Click(object sender, RoutedEventArgs e)
+        {
+            string Javaexe = Environment.GetEnvironmentVariable("JAVA_HOME") + @"bin\java.exe";
+            if (File.Exists(Javaexe))
+            {
+                JavaPath.Text = Javaexe;
+            }
         }
     }
 }

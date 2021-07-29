@@ -1,18 +1,7 @@
 ﻿using ModernWpf.Controls;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Windows.Threading;
 
 namespace ExploreSurvival_Launcher.Pages
 {
@@ -28,6 +17,7 @@ namespace ExploreSurvival_Launcher.Pages
             if (config.exists("account", "userName"))
             {
                 HideLogin();
+                Welcome.Content += config.read("account", "userName");
             }
             else
             {
@@ -67,10 +57,12 @@ namespace ExploreSurvival_Launcher.Pages
         private void HideLoginAfter()
         {
             Logout.Visibility = Visibility.Hidden;
+            Welcome.Visibility = Visibility.Hidden;
         }
         private void ShowLoginAfter()
         {
             Logout.Visibility = Visibility.Visible;
+            Welcome.Visibility = Visibility.Visible;
         }
 
 
@@ -81,16 +73,24 @@ namespace ExploreSurvival_Launcher.Pages
                 config.write("account", "userName", userName.Text);
                 config.write("account", "offlineLogin", "true");
                 HideLogin();
-                new ContentDialog
-                {
-                    Title = "登录成功",
-                    Content = "启动器需要重新启动",
-                }.ShowAsync();
+                Restart("登录成功");
             }
             else
             {
                 Dialog("服务器离线", "无法连接到ExploreSurvival验证服务器");
             }
+        }
+
+        private async void Restart(string Title)
+        {
+            await new ContentDialog
+            {
+                Title = Title,
+                Content = "启动器需要重新启动",
+                CloseButtonText = "OK"
+            }.ShowAsync();
+            System.Diagnostics.Process.Start(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
+            Application.Current.Shutdown();
         }
 
         private void OfflineLogin_Checked(object sender, RoutedEventArgs e)
@@ -120,11 +120,7 @@ namespace ExploreSurvival_Launcher.Pages
             config.write("account", "userName", "");
             HideLoginAfter();
             ShowLogin();
-            new ContentDialog
-            {
-                Title = "注销成功",
-                Content = "启动器需要重新启动",
-            }.ShowAsync();
+            Restart("注销成功");
         }
     }
 }

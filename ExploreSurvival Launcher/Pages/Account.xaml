@@ -15,7 +15,8 @@
         <Label x:Name="userPassL" Content="密码" HorizontalAlignment="Left" Margin="54,88,0,0" VerticalAlignment="Top"/>
         <Button x:Name="login" Content="登录" Margin="96,118,0,0" VerticalAlignment="Top" Width="60" Click="login_Click" IsEnabled="False"/>
         <CheckBox x:Name="OfflineLogin" Content="离线登录" Margin="160,120,0,0" VerticalAlignment="Top" Width="75" Checked="OfflineLogin_Checked" Unchecked="OfflineLogin_Unchecked"/>
-        <Button x:Name="Logout" Content="注销" Margin="0,121,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Click="Logout_Click"/>
+        <Button x:Name="Logout" Content="注销" Margin="0,116,0,0" VerticalAlignment="Top" Click="Logout_Click" HorizontalAlignment="Center"/>
+        <Label x:Name="Welcome" Content="欢迎!" HorizontalAlignment="Center" Margin="0,45,0,0" VerticalAlignment="Top" FontSize="36" Width="400" HorizontalContentAlignment="Center"/>
 
     </Grid>
 </Page>

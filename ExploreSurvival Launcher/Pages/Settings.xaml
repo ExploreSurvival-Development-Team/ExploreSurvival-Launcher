@@ -10,7 +10,13 @@
 
     <Grid>
         <Label Content="JVM内存" HorizontalAlignment="Left" Margin="50,50,0,0" VerticalAlignment="Top" FontSize="26"/>
-        <TextBox x:Name="TextBox" HorizontalAlignment="Left" Margin="160,51,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="64" FontSize="14" Height="32" PreviewTextInput="TextBox_PreviewTextInput" InputMethod.IsInputMethodEnabled="False" MaxLength="4" TextChanged="TextBox_TextChanged"/>
+        <TextBox x:Name="JvmMemery" HorizontalAlignment="Left" Margin="160,51,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="64" PreviewTextInput="JvmMemery_PreviewTextInput" InputMethod.IsInputMethodEnabled="False" MaxLength="4"/>
+        <TextBlock HorizontalAlignment="Left" Margin="50,106,0,0" Text="Java路径" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="26"/>
+        <TextBox x:Name="JavaPath" HorizontalAlignment="Left" Margin="161,89,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="400" Height="50"/>
+        <Button x:Name="SelectJavaexe" Content="选择" Margin="566,89,0,0" VerticalAlignment="Top" Click="SelectJavaexe_Click" Height="50"/>
+        <Button x:Name="Save" Content="保存" Margin="676,357,0,0" VerticalAlignment="Top" Click="Save_Click"/>
+        <Label Content="MB" HorizontalAlignment="Left" Margin="229,50,0,0" VerticalAlignment="Top" FontSize="26"/>
+        <Button x:Name="AutoFindJavaexe" Content="自动检测" Margin="617,89,0,0" VerticalAlignment="Top" Height="50" Click="AutoFindJavaexe_Click"/>
 
     </Grid>
 </Page>
