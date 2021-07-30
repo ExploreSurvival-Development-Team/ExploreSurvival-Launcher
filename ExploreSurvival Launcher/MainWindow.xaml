@@ -7,7 +7,9 @@
         mc:Ignorable="d"
         Title="ExploreSurvival 启动器" Height="450" Width="800"
         xmlns:ui="http://schemas.modernwpf.com/2019"
-        ui:WindowHelper.UseModernWindowStyle="True" ResizeMode="CanMinimize">
+        ui:WindowHelper.UseModernWindowStyle="True" 
+        ResizeMode="CanMinimize"
+        FontFamily="站酷快乐体2016修订版">
     <Grid>
         <ui:NavigationView x:Name="NavView"
             IsBackButtonVisible="Collapsed"

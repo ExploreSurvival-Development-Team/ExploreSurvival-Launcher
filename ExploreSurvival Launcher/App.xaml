@@ -10,6 +10,18 @@
                 <ui:ThemeResources />
                 <ui:XamlControlsResources />
                 <!-- Other merged dictionaries here -->
+                <ResourceDictionary>
+                    <FontFamily x:Key="站酷快乐体2016修订版">#站酷快乐体2016修订版</FontFamily>
+                    <Style TargetType="{x:Type TextElement }">
+                        <Setter Property="FontFamily" Value="站酷快乐体2016修订版"/>
+                    </Style>
+                    <Style TargetType="{x:Type TextBlock }">
+                        <Setter Property="FontFamily" Value="站酷快乐体2016修订版"/>
+                    </Style>
+                    <Style TargetType="{x:Type TextBox }">
+                        <Setter Property="FontFamily" Value="站酷快乐体2016修订版"/>
+                    </Style>
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
             <!-- Other app resources here -->
         </ResourceDictionary>

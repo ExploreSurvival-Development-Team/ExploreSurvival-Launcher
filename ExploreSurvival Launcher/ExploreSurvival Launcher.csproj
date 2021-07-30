@@ -9,6 +9,7 @@
     <Authors>ExploreSurvival Development Team</Authors>
     <PackageProjectUrl>https://github.com/ExploreSurvival-Development-Team/ExploreSurvival-Launcher</PackageProjectUrl>
     <SignAssembly>false</SignAssembly>
+    <ApplicationIcon>128.ico</ApplicationIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
