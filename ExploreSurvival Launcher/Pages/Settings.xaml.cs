@@ -23,7 +23,7 @@ namespace ExploreSurvival_Launcher.Pages
             ShowLogs.IsChecked = bool.Parse(config.read("config", "ShowLogs"));
         }
 
-        private void JvmMemery_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        private void ONUM_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             Regex re = new Regex("[^0-9]+");
             e.Handled = re.IsMatch(e.Text);

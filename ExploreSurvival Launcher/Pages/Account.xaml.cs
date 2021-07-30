@@ -1,5 +1,9 @@
 ﻿using ModernWpf.Controls;
+using Newtonsoft.Json;
 using System;
+using System.Data;
+using System.Net;
+using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -12,10 +16,16 @@ namespace ExploreSurvival_Launcher.Pages
     public partial class Account : System.Windows.Controls.Page
     {
         private IniFile config = new IniFile(Environment.CurrentDirectory + "/esl.ini");
+        private HttpClient client = new HttpClient();
         public Account()
         {
             InitializeComponent();
-            if (config.exists("account", "userName"))
+            if (!config.exists("account", "session") && bool.Parse(config.read("account", "offlineLogin")))
+            {
+                HideLoginAfter();
+                ShowLogin();
+            }
+            else if (config.exists("account", "userName"))
             {
                 HideLogin();
                 Welcome.Content += config.read("account", "userName");
@@ -67,7 +77,7 @@ namespace ExploreSurvival_Launcher.Pages
         }
 
 
-        private void login_Click(object sender, RoutedEventArgs e)
+        private async void login_Click(object sender, RoutedEventArgs e)
         {
             if ((bool)OfflineLogin.IsChecked)
             {
@@ -78,7 +88,31 @@ namespace ExploreSurvival_Launcher.Pages
             }
             else
             {
-                Dialog("服务器离线", "无法连接到ExploreSurvival验证服务器");
+                try
+                {
+                    login.IsEnabled = false;
+                    HttpResponseMessage response = await client.GetAsync("https://www.opencomputers.ml:7331/ExploreSurvival/login.jsp?username=" + userName.Text + "&password=" + userPass.Password);
+                    response.EnsureSuccessStatusCode();
+                    Response data = JsonConvert.DeserializeObject<Response>(await response.Content.ReadAsStringAsync());
+                    if (data.success)
+                    {
+                        config.write("account", "userName", userName.Text);
+                        config.write("account", "offlineLogin", "False");
+                        config.write("account", "session", data.session);
+                        config.write("account", "uuid", data.uuid);
+                        config.write("account", "expire", data.expire.ToString());
+                        Restart("登录成功");
+                    }
+                    else
+                    {
+                        Dialog("无法登录", "用户名或密码错误");
+                        login.IsEnabled = true;
+                    }
+                }
+                catch (HttpRequestException ex)
+                {
+                    Dialog("无法登录", ex.ToString());
+                }
             }
         }
 
@@ -131,5 +165,14 @@ namespace ExploreSurvival_Launcher.Pages
                 login_Click(null, null);
             }
         }
+    }
+    public class Response
+    {
+        public bool success;
+        public string reason;
+        public string username;
+        public string session;
+        public string uuid;
+        public long expire;
     }
 }
