@@ -19,6 +19,10 @@ namespace ExploreSurvival_Launcher
             {
                 config.write("config", "JvmMemery", "1024");
             }
+            if (!config.exists("config", "ShowLogs"))
+            {
+                config.write("config", "ShowLogs", "False");
+            }
             if (config.exists("account", "userName"))
             {
                 User.Content = config.read("account", "userName");

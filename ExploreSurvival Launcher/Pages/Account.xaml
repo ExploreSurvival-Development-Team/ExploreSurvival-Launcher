@@ -9,8 +9,8 @@
       Title="Account">
 
     <Grid>
-        <TextBox x:Name="userName" HorizontalAlignment="Left" Margin="96,44,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="userName_TextChanged"/>
-        <PasswordBox x:Name="userPass" HorizontalAlignment="Left" Margin="96,82,0,0" VerticalAlignment="Top" Width="120" PasswordChanged="userPass_PasswordChanged"/>
+        <TextBox x:Name="userName" HorizontalAlignment="Left" Margin="96,44,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="150" TextChanged="userName_TextChanged" KeyDown="UAP_KeyDown"/>
+        <PasswordBox x:Name="userPass" HorizontalAlignment="Left" Margin="96,82,0,0" VerticalAlignment="Top" Width="150" PasswordChanged="userPass_PasswordChanged" KeyDown="UAP_KeyDown"/>
         <Label x:Name="userNameL"  Content="用户名" HorizontalAlignment="Left" Margin="40,52,0,0" VerticalAlignment="Top"/>
         <Label x:Name="userPassL" Content="密码" HorizontalAlignment="Left" Margin="54,88,0,0" VerticalAlignment="Top"/>
         <Button x:Name="login" Content="登录" Margin="96,118,0,0" VerticalAlignment="Top" Width="60" Click="login_Click" IsEnabled="False"/>

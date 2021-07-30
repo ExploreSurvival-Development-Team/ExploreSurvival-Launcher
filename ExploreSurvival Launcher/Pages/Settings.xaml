@@ -17,6 +17,7 @@
         <Button x:Name="Save" Content="保存" Margin="676,357,0,0" VerticalAlignment="Top" Click="Save_Click"/>
         <Label Content="MB" HorizontalAlignment="Left" Margin="229,50,0,0" VerticalAlignment="Top" FontSize="26"/>
         <Button x:Name="AutoFindJavaexe" Content="自动检测" Margin="617,89,0,0" VerticalAlignment="Top" Height="50" Click="AutoFindJavaexe_Click"/>
+        <CheckBox x:Name="ShowLogs" Content="显示游戏日志" Margin="276,52,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Page>

@@ -2,6 +2,7 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace ExploreSurvival_Launcher.Pages
 {
@@ -71,7 +72,7 @@ namespace ExploreSurvival_Launcher.Pages
             if ((bool)OfflineLogin.IsChecked)
             {
                 config.write("account", "userName", userName.Text);
-                config.write("account", "offlineLogin", "true");
+                config.write("account", "offlineLogin", "True");
                 HideLogin();
                 Restart("登录成功");
             }
@@ -121,6 +122,14 @@ namespace ExploreSurvival_Launcher.Pages
             HideLoginAfter();
             ShowLogin();
             Restart("注销成功");
+        }
+
+        private void UAP_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter && ((userName.Text != "" && userPass.Password != "") || ((bool)OfflineLogin.IsChecked && userName.Text != "")))
+            {
+                login_Click(null, null);
+            }
         }
     }
 }

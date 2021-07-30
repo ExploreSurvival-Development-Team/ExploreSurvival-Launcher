@@ -98,7 +98,16 @@ namespace ExploreSurvival_Launcher.Pages
                 {
                     try
                     {
-                        Process.Start(config.read("config", "JavaPath"), "-Djava.library.path=ExploreSurvival/natives -Xmx" + config.read("config", "JvmMemery") + "M -jar ExploreSurvival/game.jar " + config.read("account", "userName"));
+                        string JavaPath = config.read("config", "JavaPath");
+                        if (!bool.Parse(config.read("config", "ShowLogs")))
+                        {
+                            JavaPath = JavaPath.Replace("java.exe", "javaw.exe");
+                        }
+                        Process p = new Process();
+                        p.StartInfo.FileName = JavaPath;
+                        p.StartInfo.Arguments = "-Djava.library.path=natives -Xmx" + config.read("config", "JvmMemery") + "M -jar game.jar " + config.read("account", "userName");
+                        p.StartInfo.WorkingDirectory = "ExploreSurvival";
+                        p.Start();
                         Dialog("游戏已启动", "已启动进程");
                     }
                     catch (Exception ex)
