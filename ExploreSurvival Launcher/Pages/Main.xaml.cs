@@ -1,5 +1,6 @@
 ﻿using ModernWpf.Controls;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -17,9 +18,9 @@ namespace ExploreSurvival_Launcher.Pages
         public Main()
         {
             InitializeComponent();
-            Autorun();
+            AsyncRun();
         }
-        private async void Autorun()
+        private async void AsyncRun()
         {
             NEWS.Text = await GetNEWS();
         }
@@ -61,11 +62,36 @@ namespace ExploreSurvival_Launcher.Pages
             }
             return true;
         }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (CheckJava())
             {
-                Dialog("无法启动", "LAZY");
+                // java.exe -Djava.library.path=natives -Xmx512M -jar game.jar <用户名> <sessionID> <uuid>
+                if (config.exists("account", "userName") && bool.Parse(config.read("account", "offlineLogin")) && File.Exists("ExploreSurvival/game.jar"))
+                {
+                    try
+                    {
+                        Process.Start(config.read("config", "JavaPath"), "-Djava.library.path=ExploreSurvival/natives -Xmx" + config.read("config", "JvmMemery") + "M -jar ExploreSurvival/game.jar " + config.read("account", "userName"));
+                        Dialog("游戏已启动", "已启动进程");
+                    }
+                    catch (Exception ex)
+                    {
+                        Dialog("无法启动", ex.ToString());
+                    }
+                }
+                else if (!config.exists("account", "userName"))
+                {
+                    Dialog("无法启动", "未登录");
+                }
+                else if (!File.Exists("ExploreSurvival/game.jar"))
+                {
+                    Dialog("无法启动",  "你没有下载ExploreSurvival");
+                }
+                else
+                {
+                    Dialog("服务器离线", "无法连接到ExploreSurvival验证服务器");
+                }
             }
             else
             {

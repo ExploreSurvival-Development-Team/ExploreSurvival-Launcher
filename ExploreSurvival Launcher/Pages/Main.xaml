@@ -10,7 +10,7 @@
 
     <Grid>
         <Button Content="开始游戏" Margin="607,331,0,0" VerticalAlignment="Top" Height="40" Width="100" FontSize="20" Click="Button_Click"/>
-        <Label Content="版本: indev-L21072901" HorizontalAlignment="Left" Margin="0,402,0,0" VerticalAlignment="Top" FontSize="10"/>
+        <Label Content="版本: indev-L21072902" HorizontalAlignment="Left" Margin="0,402,0,0" VerticalAlignment="Top" FontSize="10"/>
         <TextBlock x:Name="NEWS" HorizontalAlignment="Left" Margin="436,92,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="191" Width="271"/>
 
     </Grid>
