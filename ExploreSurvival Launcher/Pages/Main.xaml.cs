@@ -59,7 +59,7 @@ namespace ExploreSurvival_Launcher.Pages
                                 NEWS.Inlines.Add(r);
                                 break;
                             default:
-                                NEWS.Inlines.Add(message);
+                                NEWS.Inlines.Add(message + "\n");
                                 break;
                         }
                     }
