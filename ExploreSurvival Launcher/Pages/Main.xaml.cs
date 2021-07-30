@@ -41,22 +41,20 @@ namespace ExploreSurvival_Launcher.Pages
                         string message = sr.ReadLine();
                         Match match = Regex.Match(message, "&.");
                         string color = match.Value.Trim('&');
-                        Run r;
+                        Run GetRunWithColor(SolidColorBrush color)
+                        {
+                            return new Run(message.Remove(0, 2) + "\n")
+                            {
+                                Foreground = color
+                            };
+                        }
                         switch (color)
                         {
                             case "b":
-                                r = new Run(message.Remove(0, 2) + "\n")
-                                {
-                                    Foreground = Brushes.Aqua
-                                };
-                                NEWS.Inlines.Add(r);
+                                NEWS.Inlines.Add(GetRunWithColor(Brushes.Aqua));
                                 break;
                             case "c":
-                                r = new Run(message.Remove(0, 2) + "\n")
-                                {
-                                    Foreground = Brushes.Red
-                                };
-                                NEWS.Inlines.Add(r);
+                                NEWS.Inlines.Add(GetRunWithColor(Brushes.Red));
                                 break;
                             default:
                                 NEWS.Inlines.Add(message + "\n");
