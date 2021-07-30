@@ -4,8 +4,11 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Documents;
+using System.Windows.Media;
 
 namespace ExploreSurvival_Launcher.Pages
 {
@@ -18,26 +21,51 @@ namespace ExploreSurvival_Launcher.Pages
         public Main()
         {
             InitializeComponent();
-            AsyncRun();
-        }
-        private async void AsyncRun()
-        {
-            NEWS.Text = await GetNEWS();
+            GetNEWS();
         }
 
-        private async Task<string> GetNEWS()
+        private async void GetNEWS()
         {
-            return await Task.Run(() =>
+            await Task.Run(() =>
             {
                 HttpWebRequest request = WebRequest.CreateHttp("http://www.exploresurvival.ml/news.txt");
                 request.Method = "GET";
                 request.Timeout = 5000;
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();
                 StreamReader sr = new StreamReader(response.GetResponseStream(), Encoding.UTF8);
-                string news = sr.ReadToEnd();
+                Dispatcher.Invoke(() =>
+                {
+                    while (sr.Peek() >= 0)
+                    {
+                        //news += sr.ReadLine() + "\n";
+                        string message = sr.ReadLine();
+                        Match match = Regex.Match(message, "&.");
+                        string color = match.Value.Trim('&');
+                        Run r;
+                        switch (color)
+                        {
+                            case "b":
+                                r = new Run(message.Remove(0, 2) + "\n")
+                                {
+                                    Foreground = Brushes.Aqua
+                                };
+                                NEWS.Inlines.Add(r);
+                                break;
+                            case "c":
+                                r = new Run(message.Remove(0, 2) + "\n")
+                                {
+                                    Foreground = Brushes.Red
+                                };
+                                NEWS.Inlines.Add(r);
+                                break;
+                            default:
+                                NEWS.Inlines.Add(message);
+                                break;
+                        }
+                    }
+                });
                 sr.Close();
                 response.Close();
-                return news;
             });
         }
 
