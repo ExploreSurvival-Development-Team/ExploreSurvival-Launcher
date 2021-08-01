@@ -40,6 +40,7 @@ namespace ExploreSurvival_Launcher.Pages
         {
             OpenFileDialog ofd = new OpenFileDialog
             {
+                Title = "手动查找Java",
                 Filter = "Java可执行文件|java.exe"
             };
             if ((bool)ofd.ShowDialog())

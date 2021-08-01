@@ -9,6 +9,14 @@
       Title="Download">
 
     <Grid>
-        
+        <Label Content="URL" HorizontalAlignment="Left" Margin="75,46,0,0" VerticalAlignment="Top" FontSize="26"/>
+        <TextBox x:Name="URL" HorizontalAlignment="Center" Margin="0,52,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="500" FontSize="16" TextChanged="UAP_TextChanged" Height="25"/>
+        <TextBox x:Name="SavePath" HorizontalAlignment="Center" Margin="0,82,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="500" FontSize="20" TextChanged="UAP_TextChanged" Height="25"/>
+        <Label Content="保存路径" HorizontalAlignment="Left" Margin="21,80,0,0" VerticalAlignment="Top" FontSize="26"/>
+        <ProgressBar x:Name="Download_PB" HorizontalAlignment="Center" Height="4" Margin="0,158,0,0" VerticalAlignment="Top" Width="500"/>
+        <Button x:Name="Download_BN" Content="下载" Margin="584,112,0,0" VerticalAlignment="Top" IsEnabled="False" Click="Download_Click"/>
+        <Button Content="选择" Margin="635,80,0,0" VerticalAlignment="Top" Height="28" Width="54" FontSize="14" Click="Button_Click"/>
+        <Label x:Name="Download_Status" Content="" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Margin="0,137,0,0" VerticalAlignment="Top"/>
+
     </Grid>
 </Page>
