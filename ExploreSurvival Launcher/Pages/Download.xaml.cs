@@ -71,6 +71,7 @@ namespace ExploreSurvival_Launcher.Pages
                             Dispatcher.Invoke(() =>
                             {
                                 Download_PB.Value = e.ProgressPercentage;
+                                Download_StatusP.Content = e.ProgressPercentage + "%";
                                 if (e.ProgressPercentage == 100)
                                 {
                                     Download_Status.Content = "下载完成";
@@ -87,7 +88,7 @@ namespace ExploreSurvival_Launcher.Pages
                         stream.Close();
                         fileStream.Close();
                     }
-                    catch (HttpRequestException ex)
+                    catch (Exception ex)
                     {
                         Dialog("错误", ex.ToString());
                     }
