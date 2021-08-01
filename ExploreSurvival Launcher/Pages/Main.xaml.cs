@@ -67,7 +67,7 @@ namespace ExploreSurvival_Launcher.Pages
                     });
                     sr.Close();
                 }
-                catch (HttpRequestException ex)
+                catch (Exception ex)
                 {
                     Dialog("无法加载NEWS", ex.ToString());
                 }

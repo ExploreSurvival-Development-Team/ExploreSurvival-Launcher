@@ -90,7 +90,7 @@ namespace ExploreSurvival_Launcher.Pages
                     }
                     catch (Exception ex)
                     {
-                        Dialog("错误", ex.ToString());
+                        Dialog("无法下载", ex.ToString());
                     }
                 });
             });
