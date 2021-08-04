@@ -105,64 +105,78 @@ namespace ExploreSurvival_Launcher.Pages
 
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
-            Status.Content = "";
-            Delete.IsEnabled = false;
-            Compile.IsEnabled = true;
-            Directory.Delete("ExploreSurvival", true);
+            try
+            {
+                Status.Content = "";
+                Delete.IsEnabled = false;
+                Compile.IsEnabled = true;
+                Directory.Delete("ExploreSurvival", true);
+            }
+            catch (Exception ex)
+            {
+                Dialog("错误", ex.ToString());
+            }
         }
 
         private async void Compile_Click(object sender, RoutedEventArgs e)
         {
-
             await Task.Run(async () =>
             {
                 await Dispatcher.Invoke(async () =>
                 {
-                    try
+                    if (int.Parse(config.read("config", "cod")) == 0)
                     {
-                        Compile.IsEnabled = false;
-                        Delete.IsEnabled = false;
                         Directory.CreateDirectory(".tmp");
                         FileStream fileStream = new FileStream(".tmp/source.zip", FileMode.Create);
-                        ProgressMessageHandler pmh = new ProgressMessageHandler(new HttpClientHandler());
-                        pmh.HttpReceiveProgress += (_, e) =>
+                        try
                         {
-                            Dispatcher.Invoke(() =>
+                            Compile.IsEnabled = false;
+                            Delete.IsEnabled = false;
+                            ProgressMessageHandler pmh = new ProgressMessageHandler(new HttpClientHandler());
+                            pmh.HttpReceiveProgress += (_, e) =>
                             {
-                                Status.Content = string.Format("已下载 {0} bytes", e.BytesTransferred);
-                            });
-                        };
-                        HttpClient client = new HttpClient(pmh);
-                        Stream stream = await client.GetStreamAsync(config.read("config", "GitURL") + "/archive/refs/heads/main.zip");
-                        await stream.CopyToAsync(fileStream);
-                        stream.Close();
-                        fileStream.Close();
-                        Status.Content = "下载完成";
-                        ZipFile.ExtractToDirectory(".tmp/source.zip", ".tmp/", true);
-                        Process p = new Process();
-                        p.StartInfo.WorkingDirectory = ".tmp/ExploreSurvival-Game-main/";
-                        p.StartInfo.FileName = "release.bat";
-                        p.StartInfo.UseShellExecute = true;
-                        p.Start();
-                        p.WaitForExit();
-                        p.Close();
-                        Directory.CreateDirectory("ExploreSurvival");
-                        Process p2 = new Process();
-                        p2.StartInfo.WorkingDirectory = ".tmp/ExploreSurvival-Game-main/out";
-                        p2.StartInfo.FileName = "cmd.exe";
-                        p2.StartInfo.RedirectStandardInput = true;
-                        p2.Start();
-                        p2.StandardInput.WriteLine(@"xcopy /e * ..\..\..\ExploreSurvival\&exit");
-                        p2.StandardInput.Flush();
-                        p2.WaitForExit();
-                        p2.Close();
-                        Directory.Delete(".tmp", true);
-                        Delete.IsEnabled = true;
+                                Dispatcher.Invoke(() =>
+                                {
+                                    Status.Content = string.Format("已下载 {0} bytes", e.BytesTransferred);
+                                });
+                            };
+                            HttpClient client = new HttpClient(pmh);
+                            Stream stream = await client.GetStreamAsync(config.read("config", "GitURL") + "/archive/refs/heads/main.zip");
+                            await stream.CopyToAsync(fileStream);
+                            stream.Close();
+                            fileStream.Close();
+                            Status.Content = "下载完成";
+                            ZipFile.ExtractToDirectory(".tmp/source.zip", ".tmp/", true);
+                            Process p = new Process();
+                            p.StartInfo.WorkingDirectory = ".tmp/ExploreSurvival-Game-main/";
+                            p.StartInfo.FileName = "release.bat";
+                            p.StartInfo.UseShellExecute = true;
+                            p.Start();
+                            p.WaitForExit();
+                            p.Close();
+                            Directory.CreateDirectory("ExploreSurvival");
+                            Process p2 = new Process();
+                            p2.StartInfo.WorkingDirectory = ".tmp/ExploreSurvival-Game-main/out";
+                            p2.StartInfo.FileName = "cmd.exe";
+                            p2.StartInfo.RedirectStandardInput = true;
+                            p2.Start();
+                            p2.StandardInput.WriteLine(@"xcopy /e * ..\..\..\ExploreSurvival\&exit");
+                            p2.StandardInput.Flush();
+                            p2.WaitForExit();
+                            p2.Close();
+                            Directory.Delete(".tmp", true);
+                            Delete.IsEnabled = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            fileStream.Close();
+                            Directory.Delete(".tmp", true);
+                            Dialog("错误", ex.ToString());
+                        }
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        Delete.IsEnabled = true;
-                        Dialog("错误", ex.ToString());
+                        Dialog("不支持", "暂不支持");
                     }
                 });
             });

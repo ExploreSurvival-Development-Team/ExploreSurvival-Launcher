@@ -25,7 +25,11 @@ namespace ExploreSurvival_Launcher
             }
             if (!config.exists("config", "GitURL"))
             {
-                config.write("config", "GitURL", "https://github.com/493505110/ExploreSurvival-Game");
+                config.write("config", "GitURL", "https://github.com/ExploreSurvival-Development-Team/ExploreSurvival-Game");
+            }
+            if (!config.exists("config", "cod"))
+            {
+                config.write("config", "cod", "0");
             }
             if (config.exists("account", "userName"))
             {

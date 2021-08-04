@@ -21,6 +21,9 @@
         <Label Content="JVM内存" HorizontalAlignment="Left" Margin="50,50,0,0" VerticalAlignment="Top" FontSize="26"/>
         <Label Content="Git链接" HorizontalAlignment="Left" Margin="50,164,0,0" VerticalAlignment="Top" FontSize="26"/>
         <TextBox x:Name="Git_URL" HorizontalAlignment="Left" Margin="161,144,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="400" Height="50" FontSize="20"/>
-
+        <ComboBox x:Name="compileOrdownload" Margin="571,162,0,0" Width="120">
+            <ComboBoxItem Content="编译"/>
+            <ComboBoxItem Content="二进制"/>
+        </ComboBox>
     </Grid>
 </Page>

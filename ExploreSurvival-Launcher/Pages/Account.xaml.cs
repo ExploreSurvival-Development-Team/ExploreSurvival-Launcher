@@ -111,6 +111,9 @@ namespace ExploreSurvival_Launcher.Pages
                     {
                         Dialog("无法登录", "用户名或密码错误");
                         login.IsEnabled = true;
+                        userName.IsEnabled = true;
+                        userPass.IsEnabled = true;
+                        OfflineLogin.IsEnabled = true;
                     }
                 }
                 catch (HttpRequestException ex)
