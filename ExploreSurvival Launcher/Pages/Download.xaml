@@ -9,6 +9,10 @@
       Title="Download">
 
     <Grid>
+        <Button x:Name="Compile" Content="下载并编译" Margin="82,113,0,0" VerticalAlignment="Top" Click="Compile_Click"/>
+        <Button x:Name="Delete" Content="删除" Margin="175,113,0,0" VerticalAlignment="Top" Click="Delete_Click"/>
+        <Label x:Name="Status" Content="" HorizontalAlignment="Left" Margin="82,92,0,0" VerticalAlignment="Top"/>
+        <!--
         <Label Content="URL" HorizontalAlignment="Left" Margin="75,46,0,0" VerticalAlignment="Top" FontSize="26"/>
         <TextBox x:Name="URL" HorizontalAlignment="Center" Margin="0,52,0,0" Text="" TextWrapping="NoWrap" VerticalAlignment="Top" Width="500" FontSize="16" TextChanged="UAP_TextChanged" Height="25"/>
         <TextBox x:Name="SavePath" HorizontalAlignment="Center" Margin="0,82,0,0" Text="" TextWrapping="NoWrap" VerticalAlignment="Top" Width="500" FontSize="16" TextChanged="UAP_TextChanged" Height="25"/>
@@ -18,6 +22,7 @@
         <Button Content="选择" Margin="635,80,0,0" VerticalAlignment="Top" Height="28" Width="54" FontSize="14" Click="Button_Click"/>
         <Label x:Name="Download_Status" Content="" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Margin="0,137,0,0" VerticalAlignment="Top"/>
         <Label x:Name="Download_StatusP" Content="" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Margin="0,167,0,0" VerticalAlignment="Top"/>
+        -->
 
     </Grid>
 </Page>

@@ -23,6 +23,10 @@ namespace ExploreSurvival_Launcher
             {
                 config.write("config", "ShowLogs", "False");
             }
+            if (!config.exists("config", "GitURL"))
+            {
+                config.write("config", "GitURL", "https://github.com/493505110/ExploreSurvival-Game");
+            }
             if (config.exists("account", "userName"))
             {
                 User.Content = config.read("account", "userName");

@@ -20,10 +20,11 @@ namespace ExploreSurvival_Launcher.Pages
         public Account()
         {
             InitializeComponent();
-            if (!config.exists("account", "session") && bool.Parse(config.read("account", "offlineLogin")))
+            if (!config.exists("account", "session") && !bool.Parse(config.read("account", "offlineLogin")))
             {
                 HideLoginAfter();
                 ShowLogin();
+                userName.Text = config.read("account", "userName");
             }
             else if (config.exists("account", "userName"))
             {
@@ -91,6 +92,9 @@ namespace ExploreSurvival_Launcher.Pages
                 try
                 {
                     login.IsEnabled = false;
+                    userName.IsEnabled = false;
+                    userPass.IsEnabled = false;
+                    OfflineLogin.IsEnabled = false;
                     HttpResponseMessage response = await client.GetAsync("https://www.opencomputers.ml:7331/ExploreSurvival/login.jsp?username=" + userName.Text + "&password=" + userPass.Password);
                     response.EnsureSuccessStatusCode();
                     Response data = JsonConvert.DeserializeObject<Response>(await response.Content.ReadAsStringAsync());

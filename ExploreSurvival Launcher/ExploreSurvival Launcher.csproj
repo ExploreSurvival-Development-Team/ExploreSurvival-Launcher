@@ -10,6 +10,7 @@
     <PackageProjectUrl>https://github.com/ExploreSurvival-Development-Team/ExploreSurvival-Launcher</PackageProjectUrl>
     <SignAssembly>false</SignAssembly>
     <ApplicationIcon>128.ico</ApplicationIcon>
+    <AssemblyName>ExploreSurvival Launcher</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

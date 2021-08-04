@@ -19,6 +19,8 @@
         <Button x:Name="AutoFindJavaexe" Content="自动检测" Margin="617,89,0,0" VerticalAlignment="Top" Height="50" Click="AutoFindJavaexe_Click"/>
         <CheckBox x:Name="ShowLogs" Content="显示游戏日志" Margin="276,52,0,0" VerticalAlignment="Top"/>
         <Label Content="JVM内存" HorizontalAlignment="Left" Margin="50,50,0,0" VerticalAlignment="Top" FontSize="26"/>
+        <Label Content="Git链接" HorizontalAlignment="Left" Margin="50,164,0,0" VerticalAlignment="Top" FontSize="26"/>
+        <TextBox x:Name="Git_URL" HorizontalAlignment="Left" Margin="161,144,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="400" Height="50" FontSize="20"/>
 
     </Grid>
 </Page>

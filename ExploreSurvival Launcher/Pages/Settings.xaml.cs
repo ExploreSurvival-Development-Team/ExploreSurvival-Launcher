@@ -21,6 +21,7 @@ namespace ExploreSurvival_Launcher.Pages
             JvmMemery.Text = config.read("config", "JvmMemery");
             JavaPath.Text = config.read("config", "JavaPath");
             ShowLogs.IsChecked = bool.Parse(config.read("config", "ShowLogs"));
+            Git_URL.Text = config.read("config", "GitURL");
         }
 
         private void ONUM_PreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -34,6 +35,7 @@ namespace ExploreSurvival_Launcher.Pages
             config.write("config", "JvmMemery", JvmMemery.Text);
             config.write("config", "JavaPath", JavaPath.Text);
             config.write("config", "ShowLogs", ShowLogs.IsChecked.ToString());
+            config.write("config", "GitURL", Git_URL.Text);
         }
 
         private void SelectJavaexe_Click(object sender, RoutedEventArgs e)
