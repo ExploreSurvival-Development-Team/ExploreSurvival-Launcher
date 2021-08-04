@@ -20,7 +20,7 @@ namespace ExploreSurvival_Launcher.Pages
         public Account()
         {
             InitializeComponent();
-            if (!config.exists("account", "session") && !bool.Parse(config.read("account", "offlineLogin")))
+            if (!config.exists("account", "session") && config.read("account", "offlineLogin") == "False")
             {
                 HideLoginAfter();
                 ShowLogin();

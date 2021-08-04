@@ -31,6 +31,10 @@ namespace ExploreSurvival_Launcher
             {
                 config.write("config", "cod", "0");
             }
+            if (!config.exists("account", "offlineLogin"))
+            {
+                config.write("account", "offlineLogin", "False");
+            }
             if (config.exists("account", "userName"))
             {
                 User.Content = config.read("account", "userName");
