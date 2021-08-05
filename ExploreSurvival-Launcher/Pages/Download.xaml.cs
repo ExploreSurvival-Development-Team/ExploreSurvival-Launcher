@@ -182,6 +182,7 @@ namespace ExploreSurvival_Launcher.Pages
                             sw.WriteLine("Class-Path: " + classpath);
                             sw.Flush();
                             sw.Close();
+                            Directory.CreateDirectory("ExploreSurvival");
                             Process p2 = new Process();
                             p2.StartInfo.WorkingDirectory = ".tmp/ExploreSurvival-Game-main";
                             p2.StartInfo.FileName = "cmd.exe";
@@ -192,7 +193,6 @@ namespace ExploreSurvival_Launcher.Pages
                             p2.WaitForExit();
                             p2.Close();
                             Status.Content = "编译完成";
-                            Directory.CreateDirectory("ExploreSurvival");
                             Directory.Delete(".tmp", true);
                             Delete.IsEnabled = true;
                         }
