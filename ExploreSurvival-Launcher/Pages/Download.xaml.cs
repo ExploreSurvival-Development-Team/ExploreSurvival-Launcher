@@ -191,6 +191,7 @@ namespace ExploreSurvival_Launcher.Pages
                             p2.StandardInput.Flush();
                             p2.WaitForExit();
                             p2.Close();
+                            Status.Content = "编译完成";
                             Directory.CreateDirectory("ExploreSurvival");
                             Directory.Delete(".tmp", true);
                             Delete.IsEnabled = true;
