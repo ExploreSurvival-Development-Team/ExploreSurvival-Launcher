@@ -126,8 +126,11 @@ namespace ExploreSurvival_Launcher.Pages
                 {
                     if (int.Parse(config.read("config", "cod")) == 0)
                     {
+                        Status.Content = "正在启动下载...";
                         Directory.CreateDirectory(".tmp");
                         FileStream fileStream = new FileStream(".tmp/source.zip", FileMode.Create);
+                        FileStream fileStream2 = new FileStream(".tmp/lwjgl.zip", FileMode.Create);
+                        FileStream fileStream3 = new FileStream(".tmp/gson.jar", FileMode.Create);
                         try
                         {
                             Compile.IsEnabled = false;
@@ -137,7 +140,7 @@ namespace ExploreSurvival_Launcher.Pages
                             {
                                 Dispatcher.Invoke(() =>
                                 {
-                                    Status.Content = string.Format("已下载 {0} bytes", e.BytesTransferred);
+                                    Status.Content = string.Format("已下载 {0} KB", e.BytesTransferred/1024);
                                 });
                             };
                             HttpClient client = new HttpClient(pmh);
@@ -145,31 +148,58 @@ namespace ExploreSurvival_Launcher.Pages
                             await stream.CopyToAsync(fileStream);
                             stream.Close();
                             fileStream.Close();
-                            Status.Content = "下载完成";
-                            ZipFile.ExtractToDirectory(".tmp/source.zip", ".tmp/", true);
+                            Status.Content = "正在下载LWJGL...";
+                            Stream stream2 = await client.GetStreamAsync("https://download.sourceforge.net/project/java-game-lib/Official%20Releases/LWJGL%202.9.3/lwjgl-2.9.3.zip");
+                            await stream2.CopyToAsync(fileStream2);
+                            stream2.Close();
+                            fileStream2.Close();
+                            Status.Content = "正在下载GSON...";
+                            Stream stream3 = await client.GetStreamAsync("https://repo1.maven.org/maven2/com/google/code/gson/gson/2.8.7/gson-2.8.7.jar");
+                            await stream3.CopyToAsync(fileStream3);
+                            stream3.Close();
+                            fileStream3.Close();
+                            Status.Content = "正在编译...";
+                            ZipFile.ExtractToDirectory(".tmp/source.zip", ".tmp/", true); // .tmp/ExploreSurvival-Game-main
+                            ZipFile.ExtractToDirectory(".tmp/lwjgl.zip", ".tmp/", true); // .tmp/lwjgl-2.9.3
                             Process p = new Process();
-                            p.StartInfo.WorkingDirectory = ".tmp/ExploreSurvival-Game-main/";
-                            p.StartInfo.FileName = "release.bat";
-                            p.StartInfo.UseShellExecute = true;
+                            p.StartInfo.WorkingDirectory = ".tmp/ExploreSurvival-Game-main";
+                            p.StartInfo.FileName = "cmd.exe";
+                            p.StartInfo.RedirectStandardInput = true;
                             p.Start();
+                            p.StandardInput.WriteLine(@"md bin&md lib&xcopy ..\lwjgl-2.9.3\jar\* lib&move ..\gson.jar lib&xcopy /e src\* bin&dir /s /b bin\*.java > sources.txt&javac -cp lib\*;. @sources.txt&del /s /q bin\*.java&exit");
+                            p.StandardInput.Flush();
                             p.WaitForExit();
                             p.Close();
-                            Directory.CreateDirectory("ExploreSurvival");
+                            DirectoryInfo di = new DirectoryInfo(".tmp/ExploreSurvival-Game-main/lib");
+                            string classpath = ". ";
+                            foreach (FileInfo fi in di.GetFiles())
+                            {
+                                classpath += string.Format("lib/{0} ", fi.Name);
+                            }
+                            StreamWriter sw = File.CreateText(".tmp/ExploreSurvival-Game-main/mf.txt");
+                            sw.WriteLine("Manifest-Version: 1.0");
+                            sw.WriteLine("Main-Class: exploresurvival.game.ExploreSurvival");
+                            sw.WriteLine("Class-Path: " + classpath);
+                            sw.Flush();
+                            sw.Close();
                             Process p2 = new Process();
-                            p2.StartInfo.WorkingDirectory = ".tmp/ExploreSurvival-Game-main/out";
+                            p2.StartInfo.WorkingDirectory = ".tmp/ExploreSurvival-Game-main";
                             p2.StartInfo.FileName = "cmd.exe";
                             p2.StartInfo.RedirectStandardInput = true;
                             p2.Start();
-                            p2.StandardInput.WriteLine(@"xcopy /e * ..\..\..\ExploreSurvival\&exit");
+                            p2.StandardInput.WriteLine(@"cd bin&jar -cvfm ..\game.jar ..\mf.txt *&cd ..&md out&md out\lib&md out\natives&xcopy lib\* out\lib&xcopy ..\lwjgl-2.9.3\native\windows\* out\natives&move game.jar out\&xcopy /e out\* ..\..\ExploreSurvival\&exit");
                             p2.StandardInput.Flush();
                             p2.WaitForExit();
                             p2.Close();
+                            Directory.CreateDirectory("ExploreSurvival");
                             Directory.Delete(".tmp", true);
                             Delete.IsEnabled = true;
                         }
                         catch (Exception ex)
                         {
                             fileStream.Close();
+                            fileStream2.Close();
+                            fileStream3.Close();
                             Directory.Delete(".tmp", true);
                             Dialog("错误", ex.ToString());
                         }
