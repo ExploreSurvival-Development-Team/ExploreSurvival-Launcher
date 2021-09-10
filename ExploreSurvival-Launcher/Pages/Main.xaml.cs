@@ -19,10 +19,11 @@ namespace ExploreSurvival_Launcher.Pages
     /// </summary>
     public partial class Main : System.Windows.Controls.Page
     {
-        private IniFile config = new IniFile(Environment.CurrentDirectory + "/esl.ini");
+        private Config config = new Config();
         private HttpClient client = new HttpClient();
         public Main()
         {
+            config.Load();
             InitializeComponent();
             GetNEWS();
         }
@@ -86,9 +87,9 @@ namespace ExploreSurvival_Launcher.Pages
 
         private bool CheckJava()
         {
-            if (config.exists("config", "JavaPath"))
+            if (config.configData.JavaPath.Length != 0)
             {
-                if (!File.Exists(config.read("config", "JavaPath")))
+                if (!File.Exists(config.configData.JavaPath))
                 {
                     return false;
                 }
@@ -101,18 +102,18 @@ namespace ExploreSurvival_Launcher.Pages
             if (CheckJava())
             {
                 // java.exe -Djava.library.path=natives -Xmx512M -jar game.jar <用户名> <sessionID> <uuid>
-                if (config.exists("account", "userName") && bool.Parse(config.read("account", "offlineLogin")) && File.Exists("ExploreSurvival/game.jar"))
+                if (config.configData.Username.Length != 0 && config.configData.OfflineLogin && File.Exists("ExploreSurvival/game.jar"))
                 {
                     try
                     {
-                        string JavaPath = config.read("config", "JavaPath");
-                        if (!bool.Parse(config.read("config", "ShowLogs")))
+                        string JavaPath = config.configData.JavaPath;
+                        if (!config.configData.ShowLogs)
                         {
                             JavaPath = JavaPath.Replace("java.exe", "javaw.exe");
                         }
                         Process p = new Process();
                         p.StartInfo.FileName = JavaPath;
-                        p.StartInfo.Arguments = "-Djava.library.path=natives -Xmx" + config.read("config", "JvmMemery") + "M -jar game.jar " + config.read("account", "userName");
+                        p.StartInfo.Arguments = "-Djava.library.path=natives -Xmx" + config.configData.JVMmemory + "M -jar game.jar " + config.configData.Username;
                         p.StartInfo.WorkingDirectory = "ExploreSurvival";
                         p.Start();
                         Status.Content = "游戏已启动";
@@ -122,7 +123,7 @@ namespace ExploreSurvival_Launcher.Pages
                         Dialog("无法启动", ex.ToString());
                     }
                 }
-                else if (!config.exists("account", "userName"))
+                else if (config.configData.Username.Length == 0)
                 {
                     Dialog("无法启动", "未登录");
                 }
@@ -136,14 +137,14 @@ namespace ExploreSurvival_Launcher.Pages
                     {
                         try
                         {
-                            string JavaPath = config.read("config", "JavaPath");
-                            if (!bool.Parse(config.read("config", "ShowLogs")))
+                            string JavaPath = config.configData.JavaPath;
+                            if (!config.configData.ShowLogs)
                             {
                                 JavaPath = JavaPath.Replace("java.exe", "javaw.exe");
                             }
                             Process p = new Process();
                             p.StartInfo.FileName = JavaPath;
-                            p.StartInfo.Arguments = "-Djava.library.path=natives -Xmx" + config.read("config", "JvmMemery") + "M -jar game.jar " + config.read("account", "userName") + " " + config.read("account", "session") + " " + config.read("account", "uuid");
+                            p.StartInfo.Arguments = "-Djava.library.path=natives -Xmx" + config.configData.JVMmemory + "M -jar game.jar " + config.configData.Username + " " + config.configData.Session + " " + config.configData.UUID;
                             p.StartInfo.WorkingDirectory = "ExploreSurvival";
                             p.Start();
                             Status.Content = "游戏已启动";
@@ -155,7 +156,8 @@ namespace ExploreSurvival_Launcher.Pages
                     }
                     else
                     {
-                        config.write("account", "session", "");
+                        config.configData.Session = "";
+                        config.Save();
                         Dialog("无法启动", "登录过期: 请重新登录");
                     }
                 }
@@ -168,7 +170,7 @@ namespace ExploreSurvival_Launcher.Pages
 
         private bool CheckSession()
         {
-            return DateTimeOffset.Now.ToUnixTimeMilliseconds() < long.Parse(config.read("account", "expire"));
+            return DateTimeOffset.Now.ToUnixTimeMilliseconds() < config.configData.Expire;
         }
     }
 }

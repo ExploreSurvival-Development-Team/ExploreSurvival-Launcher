@@ -15,21 +15,22 @@ namespace ExploreSurvival_Launcher.Pages
     /// </summary>
     public partial class Account : System.Windows.Controls.Page
     {
-        private IniFile config = new IniFile(Environment.CurrentDirectory + "/esl.ini");
+        private Config config = new Config();
         private HttpClient client = new HttpClient();
         public Account()
         {
+            config.Load();
             InitializeComponent();
-            if (!config.exists("account", "session") && config.read("account", "offlineLogin") == "False")
+            if (config.configData.Session.Length == 0 && !config.configData.OfflineLogin)
             {
                 HideLoginAfter();
                 ShowLogin();
-                userName.Text = config.read("account", "userName");
+                userName.Text = config.configData.Username;
             }
-            else if (config.exists("account", "userName"))
+            else if (config.configData.Username.Length != 0)
             {
                 HideLogin();
-                Welcome.Content += config.read("account", "userName");
+                Welcome.Content += config.configData.Username;
             }
             else
             {
@@ -82,8 +83,9 @@ namespace ExploreSurvival_Launcher.Pages
         {
             if ((bool)OfflineLogin.IsChecked)
             {
-                config.write("account", "userName", userName.Text);
-                config.write("account", "offlineLogin", "True");
+                config.configData.Username = userName.Text;
+                config.configData.OfflineLogin = true;
+                config.Save();
                 HideLogin();
                 Restart("登录成功");
             }
@@ -100,11 +102,11 @@ namespace ExploreSurvival_Launcher.Pages
                     Response data = JsonConvert.DeserializeObject<Response>(await response.Content.ReadAsStringAsync());
                     if (data.success)
                     {
-                        config.write("account", "userName", userName.Text);
-                        config.write("account", "offlineLogin", "False");
-                        config.write("account", "session", data.session);
-                        config.write("account", "uuid", data.uuid);
-                        config.write("account", "expire", data.expire.ToString());
+                        config.configData.Username = userName.Text;
+                        config.configData.OfflineLogin = false;
+                        config.configData.Session = data.session;
+                        config.configData.UUID = data.uuid;
+                        config.configData.Expire = data.expire;
                         Restart("登录成功");
                     }
                     else
@@ -159,7 +161,11 @@ namespace ExploreSurvival_Launcher.Pages
 
         private void Logout_Click(object sender, RoutedEventArgs e)
         {
-            config.write("account", "userName", "");
+            config.configData.Username = "";
+            config.configData.OfflineLogin = true;
+            config.configData.Session = "";
+            config.configData.Expire = 0;
+            config.configData.UUID = "";
             HideLoginAfter();
             ShowLogin();
             Restart("注销成功");

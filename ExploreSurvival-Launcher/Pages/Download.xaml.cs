@@ -85,9 +85,10 @@ namespace ExploreSurvival_Launcher.Pages
             });
         }
         */
-        private IniFile config = new IniFile(Environment.CurrentDirectory + "/esl.ini");
+        private Config config = new Config();
         public Download()
         {
+            config.Load();
             InitializeComponent();
             Delete.IsEnabled = Directory.Exists("ExploreSurvival");
             Compile.IsEnabled = !Delete.IsEnabled;
@@ -124,7 +125,7 @@ namespace ExploreSurvival_Launcher.Pages
             {
                 await Dispatcher.Invoke(async () =>
                 {
-                    if (int.Parse(config.read("config", "cod")) == 0)
+                    if (config.configData.Cod == 0)
                     {
                         Status.Content = "正在启动下载...";
                         Directory.CreateDirectory(".tmp");
@@ -144,7 +145,7 @@ namespace ExploreSurvival_Launcher.Pages
                                 });
                             };
                             HttpClient client = new HttpClient(pmh);
-                            Stream stream = await client.GetStreamAsync(config.read("config", "GitURL") + "/archive/refs/heads/main.zip");
+                            Stream stream = await client.GetStreamAsync(config.configData.GitURL + "/archive/refs/heads/main.zip");
                             await stream.CopyToAsync(fileStream);
                             stream.Close();
                             fileStream.Close();

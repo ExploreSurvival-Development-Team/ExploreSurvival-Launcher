@@ -14,15 +14,16 @@ namespace ExploreSurvival_Launcher.Pages
     /// </summary>
     public partial class Settings : Page
     {
-        private IniFile config = new IniFile(Environment.CurrentDirectory + "/esl.ini");
+        private Config config = new Config();
         public Settings()
         {
             InitializeComponent();
-            JvmMemery.Text = config.read("config", "JvmMemery");
-            JavaPath.Text = config.read("config", "JavaPath");
-            ShowLogs.IsChecked = bool.Parse(config.read("config", "ShowLogs"));
-            Git_URL.Text = config.read("config", "GitURL");
-            compileOrdownload.SelectedIndex = int.Parse(config.read("config", "cod"));
+            config.Load();
+            JvmMemory.Text = config.configData.JVMmemory.ToString();
+            JavaPath.Text = config.configData.JavaPath;
+            ShowLogs.IsChecked = config.configData.ShowLogs;
+            Git_URL.Text = config.configData.GitURL;
+            compileOrdownload.SelectedIndex = (int)config.configData.Cod;
         }
 
         private void ONUM_PreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -33,11 +34,12 @@ namespace ExploreSurvival_Launcher.Pages
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            config.write("config", "JvmMemery", JvmMemery.Text);
-            config.write("config", "JavaPath", JavaPath.Text);
-            config.write("config", "ShowLogs", ShowLogs.IsChecked.ToString());
-            config.write("config", "GitURL", Git_URL.Text);
-            config.write("config", "cod", compileOrdownload.SelectedIndex.ToString());
+            config.configData.JVMmemory = int.Parse(JvmMemory.Text);
+            config.configData.JavaPath = JavaPath.Text;
+            config.configData.ShowLogs = (bool)ShowLogs.IsChecked;
+            config.configData.GitURL = Git_URL.Text;
+            config.configData.Cod = (Cod)compileOrdownload.SelectedIndex;
+            config.Save();
         }
 
         private void SelectJavaexe_Click(object sender, RoutedEventArgs e)
